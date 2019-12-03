@@ -40,9 +40,17 @@
 
 <body>
     
-    
-  
-
+     
+<?php if (isset($_GET['notif'])): ?>
+            <div class="alert alert-success alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                <?php
+                    if ($_GET['notif'] == 'add') echo 'Client ajouté avec succés';
+					
+					?>
+					</div>
+				<?php endif ?>
+		
 	
 	<!-- header -->
 	<header id="home">
@@ -148,6 +156,7 @@
 							</li>
 							<li><a href="menu.html">Menu</a></li>
 							<li><a href="contact.html">Contact Us</a></li>
+							<li><a href="update.php">update</a></li>
 						</ul>
 					</nav>
 				</div>
@@ -187,7 +196,7 @@
 				
                     
 						<div class="form-group">
-							<label>user name</label>
+							<label>username</label>
 							<input type="text" name="nom"  value="<?=$_POST['nom'] ?? ''?>" class="form-control" placeholder="your name">
 			            <span class="text-danger"><?php if(isset($nom_error)) echo $nom_error;?> </span>
 						</div>
@@ -212,9 +221,10 @@
 							<input type="text" class="form-control" name="adresse" id="adresse" value="<?=$_POST['adresse'] ?? ''?>" placeholder="votre adresse" >
                             <span class="test_danger"><?php if (isset($adresse_error)) echo $adresse_error;?></span>
                         </div>
-						<button type="submit" class="btn submit mb-4" name="signup">Register</button>
-						<p class="text-center">
-							<a href="#" class="text-da">By clicking Register, I agree to your terms</a>
+						<input type="submit" class="btn btn-block btn-primary" name="signup" value="submit">
+                    <div class="text-center">
+                        Already have a account?<a href="login.php" class="btn btn-default">Login</a>
+                    </div>
 						</p>
 					</form>
 				</div>
