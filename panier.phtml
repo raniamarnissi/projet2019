@@ -9,31 +9,35 @@
 </head>
 <body>
     <div class="container">
-
-
-
-
-    
-            <form action="chariot.php" method="post">
+        <form action="chariot.php" method="post">
             <div class="form-group">
-            <h3 class="jombostron">vous avez commandé</h3>     
-            vous êtes: 
-            <input type="number" name="cid" class="form-control" ></br>        
-            nom du produit: 
-            <input type="number" name="pid" class="form-control" ></br>               
+            <h2 class="jombostron">panier<!--appel fct count :  --></h2>            
+            <h6>VOTRE ARTICLE: </h6>
+                <input type="text" name="nomp" class="form-control" disabled value="<?$_SESSION[nomproduit]??''?>"></br>               
             quantité 
-            <input type="number" name="qte" class="form-control" id="qte" placeholder="1" required></br> 
-            prix toatale
-            <div class="alert alert-success alert-dismissable">
-                <a href="#" class="close" data-dismiss="alert" aria-label="close" > &times;</a>
-            </div>
+                <select name="qte" id="qte" class="form-control" required>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                </select>
+            prix unitaire
+                <input type="text" class="form-control" disabled value="<?=$_prixunitaire?>">
+            prix total
+                <div class="alert alert-success alert-dismissable">
+                    <input type="text" class="form-control" disabled value="<?=$_prixtotal?>">
+                </div>
             statut delevry</br> 
-            <input type="number" name="statut" id="" class="form-control"></input></br>
+            <select name="statut" id="" class="form-control">
+                    <option value="1">livrer</option>
+                    <option value="0">non livrer</option>
+            </select>
             <button type="submit" name="" class="btn btn-outline-success">confirm order</button> 
             </br>
             <button type="reset" class="btn btn-outline-danger" ><a href="">annuler</a></button> </br>
             </div>
-            </form>
+        </form>
     </div>
 </body>
 </html>
