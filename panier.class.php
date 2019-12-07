@@ -41,6 +41,15 @@ class PANIER
                 echo $ex->getMessage();
             }
         }
-    
+        public function retournerprixunitaire(){
+            try {
+                $req ='SELECT prix FROM produit WHERE id=''';
+                $result = $this->cnx->prepare($req);
+                $result->execute();
+                return $result;
+            } catch (PDOException $e) {
+                echo $e->getMessage();
+            }
+        }
 }
 ?>
