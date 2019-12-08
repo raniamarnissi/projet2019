@@ -8,12 +8,24 @@
     <title>panier</title>
 </head>
 <body>
+<?php
+include 'panier.class.php';
+if (isset($_SESSION)) {
+    $_SESSION['nomproduit']=$_GET['nomp'];
+    $_SESSION['idproduit']=$_GET['idp'];
+}
+?>
     <div class="container">
         <form action="chariot.php" method="post">
             <div class="form-group">
-            <h2 class="jombostron">panier<!--appel fct count :  --></h2>            
+            <h2 class="jombostron">panier</h2>            
             <h6>VOTRE ARTICLE: </h6>
-                <input type="text" name="nomp" class="form-control" disabled value="<?$_SESSION[nomproduit]??''?>"></br>               
+            
+            <input type="text" name="nomp" class="form-control" disabled value="<?php
+            if (isset($_SESSION['nomproduit'])) {
+                echo $_SESSION['nomproduit'] ; }?>">
+
+            </br> 
             quantité 
                 <select name="qte" id="qte" class="form-control" required>
                         <option value="1">1</option>
