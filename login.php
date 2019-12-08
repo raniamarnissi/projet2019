@@ -5,7 +5,7 @@
     include 'classes/user.class.php';
 
     if(isset($_SESSION['username'])!="") {
-        header("Location: dashboard.php");
+        header("Location: login.php");
     }
 
     if (isset($_POST['login'])) {
@@ -26,15 +26,31 @@
         $user = new User;
         // $hashed_password = password_hash($password, PASSWORD_DEFAULT);
         $auth = $user->login($username, $password);
-        if($auth === false)
+       
+        if(($auth === false))
         {
             $auth_error = 'Incorrect username or Password!!!';
-        } else {
+        } else 
+        {
             session_start();
             $_SESSION['username'] = $auth['username'];
             
             header("Location: pizza.php");
         }
+    
+        $authd =$user->loginemployer($username,$password);
+        if(($authd === false))
+        {
+            $auth_error = 'Incorrect username or Password!!!';
+        } else 
+        {
+            session_start();
+            $_SESSION['username'] = $authd['username'];
+            
+            header("Location: dashboard.php");
+        }
+    
+   
     }
 
     phtml:
