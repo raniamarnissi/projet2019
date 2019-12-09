@@ -1,0 +1,172 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Confirmer la commande</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+      <style>
+    div.scrollmenu {
+      background-color: rgb(97, 93, 93);
+      overflow: auto;
+      white-space: nowrap;
+    }
+    
+    div.scrollmenu a {
+      display: inline-block;
+      color: white;
+      text-align: center;
+      padding: 14px;
+      text-decoration: none;
+    }
+    
+    div.scrollmenu a:hover {
+      background-color: #777;
+    }
+    body {
+      background :url("file:///C:/wamp64/www/background.jpg");
+      -webkit-background-size: cover;
+            -moz-background-size: cover;
+            -o-background-size: cover;
+            background-size: cover;
+            float:right;
+    }
+    form {
+        width:700px;
+        border: 0px solid black;}
+        label{
+          color:black ;
+        }
+        #nav {
+	padding: 0; margin: 0;
+	text-align: center; /* centrer le texte */
+}
+#nav li {
+	display: inline;
+	list-style: none;
+}
+#nav a {
+	display:inline-block;
+	margin: 0 30px;
+  color:white;
+}
+    </style>
+</head>
+<body>
+  	<?php
+session_start();
+include_once("panier.php");
+
+$erreur = false;
+
+$action = (isset($_POST['action'])? $_POST['action']:  (isset($_GET['action'])? $_GET['action']:null )) ;
+if($action !== null)
+{
+   if(!in_array($action,array('ajout', 'suppression', 'refresh')))
+   $erreur=true;
+
+   //récuperation des variables en POST ou GET
+   $l = (isset($_POST['l'])? $_POST['l']:  (isset($_GET['l'])? $_GET['l']:null )) ;
+   $p = (isset($_POST['p'])? $_POST['p']:  (isset($_GET['p'])? $_GET['p']:null )) ;
+   $q = (isset($_POST['q'])? $_POST['q']:  (isset($_GET['q'])? $_GET['q']:null )) ;
+
+   //Suppression des espaces verticaux
+   $l = preg_replace('#\v#', '',$l);
+   
+
+   //On traite $q qui peut etre un entier simple ou un tableau d'entier
+    
+   if (is_array($q)){
+      $QteArticle = array();
+      $i=0;
+      foreach ($q as $contenu){
+         $QteArticle[$i++] = intval($contenu);
+      }
+   }
+   else
+   $q = intval($q);
+    
+}
+
+if (!$erreur){
+   switch($action){
+      Case "ajout":
+         ajouterArticle($l,$q,$p);
+         break;
+
+      Case "suppression":
+         supprimerArticle($l);
+         break;
+
+      Case "refresh" :
+         for ($i = 0 ; $i < count($QteArticle) ; $i++)
+         {
+            modifierQTeArticle($_SESSION['panier']['libelleProduit'][$i],round($QteArticle[$i]));
+         }
+         break;
+
+      Default:
+         break;
+   }
+}
+
+
+	//verifier si panier est vide 
+	if (creationPanier())
+	{
+	   $nbArticles=count($_SESSION['panier']['libelleProduit']);
+	   if ($nbArticles <= 0)
+	   echo "Votre panier est vide";
+	}
+}
+
+?>
+
+  <ul id="nav">
+	<li><a href="menu.html">Menu</a></li>
+	<li><a href="contact.html">Contact</a></li>
+<li><a href="signin.html">Login</a> </li>
+	<li><a href="panier.html"><img height="30" width="30" src="file:///home/majdi/sirine/Application/pages/images/panier.jpg">Shopping Cart</a></li>
+</ul>
+ 
+   <div class="container">
+       <form  action="signin.php" method="post">
+            <div class="jumbotron jumbotron-fluid">
+            <h3> Votre commande à été enregistrer avec succées</h3>  
+            </div> 
+            <div class="form-group">
+               <label>Nom :</label>
+               <input  class="form-control" type="text" name="nom" placeholder="Votre nom svp !">
+               </div>
+               <div class="form-group">       
+              <label>Prénom :</label>
+               <input class="form-control" type="text" name="prenom" placeholder="Votre prénom svp !">
+               </div>
+               <div class="form-group">
+               <label>Numéro de téléphone :</label>
+               <input class="form-control" type="text" name="ntel" placeholder="Votre numéro de téléphone svp !">
+               </div>
+               <div class="form-group">
+                <label>Adresse:</label>
+               <input class="form-control" type="text" name="adr" placeholder="Votre adresse svp !">
+               </div>
+               <div class="form-group">
+                <label>Paiement :</label>
+               <input class="form-control" type="text" name="paiement" placeholder="Quel est le type de paiement ?">
+               </div>
+               <div class="form-check-check">
+               <label class="form-check-label">
+                    <input class="form-check-input" type="checkbox" name="confirmer">
+                    Je confirme mes données                    
+                  </label></div>
+                  <button type="submit" class="btn btn-success">Commander</button>
+                  <button type="reset" class="btn btn-info">Annuler</button>
+            </form>
+   </div>
+</body>
+</html>
