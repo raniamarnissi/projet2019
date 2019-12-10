@@ -35,7 +35,7 @@
             session_start();
             $_SESSION['username'] = $auth['username'];
             
-            header("Location: pizza.php");
+            header("Location: menu2.php");
         }
     
         $authd =$user->loginemployer($username,$password);
@@ -47,7 +47,7 @@
             session_start();
             $_SESSION['username'] = $authd['username'];
             
-            header("Location: dashboard.php");
+            header("Location: menu.php");
         }
     
    
